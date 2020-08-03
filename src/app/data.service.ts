@@ -6,7 +6,7 @@ import { Observable, throwError, BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class DataService {
-  baseUrl = 'http://localhost:3000/';
+  baseUrl = 'https://crmapi-john.herokuapp.com/';
   token = document.cookie.split(';')[0].split('=')[1];
   constructor(private http: HttpClient) {}
   login(bodyData): Observable<any> {
