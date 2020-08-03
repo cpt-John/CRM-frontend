@@ -1,0 +1,11 @@
+html,
+body {
+  min-width: 100vw;
+  min-height: 100vh;
+}
+.fade.modal {
+  opacity: 1 !important;
+}
+.modal-dialog {
+  top: 5em;
+}

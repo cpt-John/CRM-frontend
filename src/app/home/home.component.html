@@ -1,0 +1,288 @@
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button
+        type="button"
+        class="navbar-toggle collapsed"
+        (click)="toggleNavbar()"
+      >
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <h4 class="navbar-brand">CRM App</h4>
+    </div>
+
+    <div class="collapse navbar-collapse" [ngClass]="{ in: isOpen }">
+      <ul class="nav navbar-nav">
+        <li
+          [ngClass]="{ active: tableNo == 0 }"
+          (click)="toggleNavbar(); setTable(0)"
+        >
+          <a href="#" onclick="return false"
+            >Leads<span class="sr-only">(current)</span></a
+          >
+        </li>
+        <li
+          [ngClass]="{ active: tableNo == 1 }"
+          (click)="toggleNavbar(); setTable(1)"
+        >
+          <a href="#" onclick="return false">Contacts</a>
+        </li>
+        <li
+          [ngClass]="{ active: tableNo == 2 }"
+          (click)="toggleNavbar(); setTable(2)"
+        >
+          <a href="#" onclick="return false">Service-requests</a>
+        </li>
+        <li
+          [ngClass]="{ active: tableNo == 3 }"
+          (click)="toggleNavbar(); setTable(3)"
+        >
+          <a href="#" onclick="return false">Users</a>
+        </li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li (click)="logout()">
+          <a href="#">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container">
+  <div class="row justify-content-center pt-3">
+    <div class="col-md-8 col-xl-5">
+      <div>
+        <p class="h3">{{ "welcome,  " + userData["name"] | titlecase }}</p>
+        <div class="d-flex flex-row">
+          <p>
+            <small>{{ userData["email"] }}</small>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Leads -->
+  <div class="row" *ngIf="tableNo == 0">
+    <div class="col">
+      <div class="row">
+        <div class="col">
+          <app-lead-modal (sendForm)="addLead($event)"></app-lead-modal>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Added By</th>
+                <th scope="col">Status</th>
+                <th scope="col">ChangeStatus</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of data.leads">
+                <th scope="row">{{ item["_id"] }}</th>
+                <td>{{ item["lead_name"] }}</td>
+                <td>{{ item["email"] }}</td>
+                <td>{{ item["added_by"] }}</td>
+                <td>{{ item["status"] }}</td>
+                <td>
+                  <select
+                    (change)="
+                      updateLead($event.target.value, item.status, item._id)
+                    "
+                  >
+                    <option value="null" selected>Select status</option>
+                    <option value="new">new</option>
+                    <option value="contacted">contacted</option>
+                    <option value="quantified">quantified</option>
+                    <option value="lost">lost</option>
+                    <option value="cancelled">cancelled</option>
+                    <option value="confirmed">confirmed</option>
+                  </select>
+                </td>
+                <td>
+                  <button
+                    class="btn btn-danger"
+                    type="button"
+                    (click)="deleteLead(item._id)"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Contacts -->
+  <div class="row" *ngIf="tableNo == 1">
+    <div class="col">
+      <div class="row">
+        <div class="col">
+          <app-contact-modal
+            (sendForm)="addContact($event)"
+          ></app-contact-modal>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Ph</th>
+                <th scope="col">Added By</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of data.contacts">
+                <th scope="row">{{ item["_id"] }}</th>
+                <td>{{ item["contact_name"] }}</td>
+                <td>{{ item["email"] }}</td>
+                <td>{{ item["ph"] }}</td>
+                <td>{{ item["added_by"] }}</td>
+                <td>
+                  <button
+                    class="btn btn-danger"
+                    type="button"
+                    (click)="deleteContact(item._id)"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Serv Req -->
+  <div class="row" *ngIf="tableNo == 2">
+    <div class="col">
+      <div class="row">
+        <div class="col">
+          <app-ticket-modal
+            [contacts]="data['contacts']"
+            (sendForm)="addTicket($event)"
+          ></app-ticket-modal>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Ticket detail</th>
+                <th scope="col">Contact</th>
+                <th scope="col">Added By</th>
+                <th scope="col">Status</th>
+                <th scope="col">ChangeStatus</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of data.tickets">
+                <th scope="row">{{ item["_id"] }}</th>
+                <td>{{ item["ticket_name"] }}</td>
+                <td>{{ item["contact_name"] }}</td>
+                <td>{{ item["added_by"] }}</td>
+                <td>{{ item["status"] }}</td>
+                <td>
+                  <select
+                    (change)="
+                      updateTicket($event.target.value, item.status, item._id)
+                    "
+                  >
+                    <option value="null" selected>Select status</option>
+                    <option value="created">created</option>
+                    <option value="open">open</option>
+                    <option value="in-process">in-process</option>
+                    <option value="released">released</option>
+                    <option value="cancelled">cancelled</option>
+                    <option value="completed">completed</option>
+                  </select>
+                </td>
+                <td>
+                  <button
+                    class="btn btn-danger"
+                    type="button"
+                    (click)="deleteTicket(item._id)"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Users -->
+  <div class="row" *ngIf="tableNo == 3">
+    <div class="col">
+      <div class="row">
+        <div class="col">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Role</th>
+                <th scope="col">Change Role</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of data.users">
+                <th scope="row">{{ item["_id"] }}</th>
+                <td>{{ item["name"] }}</td>
+                <td>{{ item["email"] }}</td>
+                <td>{{ roles[item["role"]] }}</td>
+                <td>
+                  <select
+                    (change)="
+                      updateUser($event.target.value, item.status, item._id)
+                    "
+                  >
+                    <option value="null" selected>Select Role</option>
+                    <option value="2">Manager</option>
+                    <option value="3">Employee lvl_2</option>
+                    <option value="4">Employee lvl_1</option>
+                    <option value="5">Not Admitted</option>
+                  </select>
+                </td>
+                <td>
+                  <button
+                    class="btn btn-danger"
+                    type="button"
+                    (click)="deleteUser(item._id)"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

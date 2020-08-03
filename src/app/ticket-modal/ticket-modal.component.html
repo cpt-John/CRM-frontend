@@ -1,0 +1,76 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.close()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="profileForm">
+      <div class="form-group">
+        <label for="contact_name">Contact name</label>
+        <select
+          class="form-control"
+          formControlName="contact_name"
+          [ngClass]="{
+            valid: profileForm.get('contact_name').valid,
+            invalid:
+              profileForm.get('contact_name').invalid &&
+              profileForm.get('contact_name').dirty
+          }"
+        >
+          <option
+            *ngFor="let contact of contacts"
+            [value]="contact['contact_name']"
+            >{{ contact["contact_name"] }}</option
+          >
+        </select>
+        <label for="ticket_name">Ticket Title</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="ticket_name"
+          [ngClass]="{
+            valid: profileForm.get('ticket_name').valid,
+            invalid:
+              profileForm.get('ticket_name').invalid &&
+              profileForm.get('ticket_name').dirty
+          }"
+        />
+        <label for="details">Details</label>
+        <textarea
+          rows="3"
+          class="form-control"
+          formControlName="details"
+          [ngClass]="{
+            valid:
+              profileForm.get('details').valid &&
+              profileForm.get('details').dirty,
+            invalid:
+              profileForm.get('details').invalid &&
+              profileForm.get('details').dirty
+          }"
+        ></textarea>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="submit"
+      [disabled]="profileForm.invalid"
+      class="btn btn-outline-dark"
+      (click)="sendToParent(); modal.close()"
+    >
+      Submit
+    </button>
+  </div>
+</ng-template>
+
+<button class="btn btn-lg btn-info" (click)="open(content)">
+  <fa-icon [icon]="faPlus"></fa-icon> New Ticket
+</button>
