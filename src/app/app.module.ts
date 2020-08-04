@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { FormsModule } from '@angular/forms';
@@ -21,6 +21,7 @@ import { HomeComponent } from './home/home.component';
 import { LeadModalComponent } from './lead-modal/lead-modal.component';
 import { ContactModalComponent } from './contact-modal/contact-modal.component';
 import { TicketModalComponent } from './ticket-modal/ticket-modal.component';
+import { DetailsModalComponent } from './details-modal/details-modal.component';
 
 @NgModule({
   declarations: [
@@ -32,17 +33,18 @@ import { TicketModalComponent } from './ticket-modal/ticket-modal.component';
     LeadModalComponent,
     ContactModalComponent,
     TicketModalComponent,
+    DetailsModalComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    NgbModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     FontAwesomeModule,
-    NgbModule,
   ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent],
