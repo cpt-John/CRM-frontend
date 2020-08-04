@@ -6,5 +6,7 @@ h4 {
   margin-bottom: 0;
 }
 .table-cont {
+  padding-right: 1em;
+  padding-left: 1em;
   overflow-y: scroll;
 }
