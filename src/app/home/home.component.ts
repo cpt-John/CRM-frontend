@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from '../data.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DetailsModalComponent } from '../details-modal/details-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -10,10 +11,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
+  @ViewChild('detailsChild') detailsChild: DetailsModalComponent;
+
   requesting;
   profileForm: FormGroup;
   userData = {};
-  s = 'sfxdxgf';
+  details = 'sfxdxgf';
   data = { leads: [], contacts: [], tickets: [], users: [] };
   roles = {
     1: 'Admin',
@@ -40,6 +43,10 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.getData();
     this.userData = JSON.parse(window.localStorage.getItem('userData'));
+  }
+
+  showDetails(details) {
+    this.detailsChild.open(details);
   }
 
   // navbar

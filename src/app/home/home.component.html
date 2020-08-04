@@ -52,6 +52,7 @@
     </div>
   </div>
 </nav>
+<app-details-modal #detailsChild></app-details-modal>
 <div class="container">
   <div class="row justify-content-center pt-3">
     <div class="col-md-8 col-xl-5">
@@ -74,7 +75,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col table-cont">
+        <div class="col">
           <table class="table">
             <thead>
               <tr>
@@ -83,6 +84,7 @@
                 <th scope="col">Email</th>
                 <th scope="col">Added By</th>
                 <th scope="col">Status</th>
+                <th scope="col">Details</th>
                 <th scope="col">ChangeStatus</th>
                 <th scope="col">Delete</th>
               </tr>
@@ -94,6 +96,15 @@
                 <td>{{ item["email"] }}</td>
                 <td>{{ item["added_by"] }}</td>
                 <td>{{ item["status"] }}</td>
+                <td>
+                  <button
+                    class="btn btn-info"
+                    type="button"
+                    (click)="showDetails(item.details)"
+                  >
+                    More Details
+                  </button>
+                </td>
                 <td>
                   <select
                     (change)="
@@ -109,6 +120,7 @@
                     <option value="confirmed">confirmed</option>
                   </select>
                 </td>
+
                 <td>
                   <button
                     class="btn btn-danger"
@@ -136,7 +148,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col table-cont">
+        <div class="col">
           <table class="table">
             <thead>
               <tr>
@@ -183,7 +195,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col table-cont">
+        <div class="col">
           <table class="table">
             <thead>
               <tr>
@@ -192,6 +204,7 @@
                 <th scope="col">Contact</th>
                 <th scope="col">Added By</th>
                 <th scope="col">Status</th>
+                <th scope="col">More Details</th>
                 <th scope="col">ChangeStatus</th>
                 <th scope="col">Delete</th>
               </tr>
@@ -203,6 +216,15 @@
                 <td>{{ item["contact_name"] }}</td>
                 <td>{{ item["added_by"] }}</td>
                 <td>{{ item["status"] }}</td>
+                <td>
+                  <button
+                    class="btn btn-info"
+                    type="button"
+                    (click)="showDetails(item.details)"
+                  >
+                    More Details
+                  </button>
+                </td>
                 <td>
                   <select
                     (change)="
@@ -237,8 +259,8 @@
   <!-- Users -->
   <div class="row" *ngIf="tableNo == 3">
     <div class="col">
-      <div class="row">
-        <div class="col table-cont">
+      <div class="row table-cont">
+        <div class="col">
           <table class="table">
             <thead>
               <tr>

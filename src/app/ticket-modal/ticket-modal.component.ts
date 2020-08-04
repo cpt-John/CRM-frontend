@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
@@ -17,7 +17,7 @@ export class TicketModalComponent {
   sendToParent(): void {
     this.sendForm.emit(this.profileForm.value);
   }
-  closeResult = '';
+
   faPlus = faPlus;
   constructor(private modalService: NgbModal, private fb: FormBuilder) {
     this.profileForm = this.fb.group({
@@ -27,10 +27,6 @@ export class TicketModalComponent {
     });
   }
   open(content) {
-    this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title' })
-      .result.then((result) => {
-        this.closeResult = `Closed with: ${result}`;
-      });
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }
 }
