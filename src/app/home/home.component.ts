@@ -324,7 +324,7 @@ export class HomeComponent implements OnInit {
 
   deleteUser(id) {
     if (!confirm('Are you sure you want to delete?')) return;
-    this.service.deleteTicket(id).subscribe(
+    this.service.deleteUser(id).subscribe(
       (responce) => {
         this.requesting = false;
         this.toastr.warning(responce['message']);
